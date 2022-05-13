@@ -117,6 +117,7 @@ const Flow = () => {
                 position,
                 data: { label: `${label} node` },
                 style:{backgroundColor:'#FFFFFF'},
+        
                 
             };
 
@@ -130,7 +131,7 @@ const Flow = () => {
             <div className='grid grid-cols-4 '>
                 <ReactFlowProvider>
                     <Sidebar />
-                    <div className="col-span-2" ref={reactFlowWrapper}>
+                    <div className="col-span-3" ref={reactFlowWrapper}>
                         <ReactFlow
                             nodes={nodes}
                             edges={edges}
@@ -162,7 +163,6 @@ const Flow = () => {
                             <Background/>
                         </ReactFlow>
                     </div>
-                    <Info />
                 </ReactFlowProvider>
             </div>
         </div>
