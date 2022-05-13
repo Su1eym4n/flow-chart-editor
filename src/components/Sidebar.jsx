@@ -7,12 +7,13 @@ const Sidebar = () => {
         event.dataTransfer.effectAllowed = 'move';
     };
     const objects = [
-        { style: 'bg-red-300 w-40 my-2 py-2 mx-2 rounded-md', type: 'input', text: 'Input' },
-        { style: 'bg-lime-200 w-40 my-2 py-2 mx-2 rounded-md', type: 'input', text: 'Start' },
-        { style: 'bg-teal-200 w-40 my-2 py-2 mx-2 rounded-md', type: 'default', text: 'Encrypt' },
-        { style: 'bg-indigo-200 w-40 my-2 py-2 mx-2 rounded-md', type: 'default', text: 'Decrypt' },
-        { style: 'bg-stone-300 w-40 my-2 py-2 mx-2 rounded-md', type: 'output', text: 'send' },
-        { style: 'bg-zinc-400 w-40 my-2 py-2 mx-2 rounded-md', type: 'output', text: 'print' },
+        { style: 'bg-red-300 w-40 my-2 py-2 mx-2 rounded-md', type: 'input', text: 'INPUT' },
+        { style: 'bg-lime-200 w-40 my-2 py-2 mx-2 rounded-md', type: 'input', text: 'START' },
+        { style: 'bg-teal-200 w-40 my-2 py-2 mx-2 rounded-md', type: 'default', text: 'NODE_01' },
+        { style: 'bg-indigo-200 w-40 my-2 py-2 mx-2 rounded-md', type: 'default', text: 'NODE_02' },
+        { style: 'bg-stone-300 w-40 my-2 py-2 mx-2 rounded-md', type: 'output', text: 'SEND' },
+        { style: 'bg-zinc-400 w-40 my-2 py-2 mx-2 rounded-md', type: 'output', text: 'PRINT' },
+        //{ style: 'bg-blue-400 w-40 my-2 py-2 mx-2 rounded-md', type: 'customOutput', text: 'CUSTOM' },
     ]
 
     return (
