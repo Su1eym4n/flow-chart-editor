@@ -50,7 +50,10 @@ const Flow = () => {
         (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
         [setEdges]
     );
-    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+    const onConnect = useCallback(
+        (params) => setEdges((eds) => addEdge({ ...params, animated: true, style: { stroke: '#E80F3D' } }, eds)),
+        []
+      );
 
     const onDragOver = useCallback((event) => {
         event.preventDefault();
@@ -87,6 +90,7 @@ const Flow = () => {
             })
         );
     }, [nodeBg, setNodes]);
+
     const onDrop = useCallback(
         (event) => {
             event.preventDefault();
@@ -106,14 +110,14 @@ const Flow = () => {
             });
            
             
-            setNodeName(`${label} node`)
-            setNodeBg('#FFFFFF')
+
             const newNode = {
                 id: getId(),
                 type,
                 position,
-
                 data: { label: `${label} node` },
+                style:{backgroundColor:'#FFFFFF'},
+                
             };
 
             setNodes((nds) => nds.concat(newNode));
@@ -123,7 +127,7 @@ const Flow = () => {
     const graphStyles = { width: "100%", height: "100%" };
     return (
         <div>
-            <div className='grid grid-cols-3 '>
+            <div className='grid grid-cols-4 '>
                 <ReactFlowProvider>
                     <Sidebar />
                     <div className="col-span-2" ref={reactFlowWrapper}>
@@ -136,6 +140,14 @@ const Flow = () => {
                             onInit={setReactFlowInstance}
                             onDrop={onDrop}
                             onDragOver={onDragOver}
+                            onNodeClick={(event , node)=>{
+                                event.preventDefault()
+                                setNodeBg(node.style.backgroundColor)
+                                setNodeName(node.data.label)
+                                console.log(node.type)
+                                console.log(node.data.label)
+                                console.log(node.style.backgroundColor)
+                            }}
                             style={graphStyles}
                         >
 
@@ -147,9 +159,10 @@ const Flow = () => {
                             </div>
 
                             <Controls />
-                            <Background color='' />
+                            <Background/>
                         </ReactFlow>
                     </div>
+                    <Info />
                 </ReactFlowProvider>
             </div>
         </div>

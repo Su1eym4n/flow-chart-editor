@@ -1,15 +1,11 @@
-import React, {useState, useEffect} from 'react'
-import ReactFlow, { useNodesState, useEdgesState } from 'react-flow-renderer';
-
-const Info = ({n}) => {
-    const [nodeName, setNodeName] = useState('Node 1');
-    const [nodeBg, setNodeBg] = useState('#eee');
-
-
-
+const Info = ({name, id, parent, type, position}) => {
   return (
-    <div>
-
+    <div >
+        <div>{name}</div>
+        <div>{type}</div>
+        <div>{id}</div>
+        <div>{parent}</div>
+        <div>{position}</div>
     </div>
   )
 }
