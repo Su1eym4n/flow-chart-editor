@@ -7,14 +7,102 @@ import ReactFlow, {
     Controls,
     Background,
     applyEdgeChanges,
-    applyNodeChanges
+    applyNodeChanges,
+    Handle,
+    Position
 
 } from 'react-flow-renderer';
-
 import Sidebar from './Sidebar';
-import CustomOutputNode from './CustomOutputNode';
+// import CustomOutputNode from './CustomOutputNode';
+// import CustomInputNode from './CustomInputNode'
 import './updatenode.css'
 import '../index.css';
+
+
+const DynOutputHandle = (props) => {
+    const { idx } = props;
+
+    return (
+        <Handle
+            type={"target"}
+            id={`output${idx}`}
+            position={Position.Bottom}
+            style={{ left: 10 + idx * 20 }}
+        />
+    );
+};
+
+const DynInputHandle = (props) => {
+    const { idx } = props;
+
+    return (
+        <Handle
+            type={"source"}
+            id={`source${idx}`}
+            position={Position.Bottom}
+            style={{ left: 10 + idx * 20 }}
+        />
+    );
+};
+
+const CustomInputNode = ({data}, props) => {
+    const [outputcount, setOutputCount] = useState(1);
+  
+    return (
+      <>
+        <div
+          style={{
+            border: "1px solid black",
+            backgroundColor: "lavender",
+            borderRadius: 4,
+            padding: 5
+          }}
+        >
+          jj
+          <hr />
+          <button onClick={() => setOutputCount((i) => i + 1)}>
+            {" "}
+            add output
+          </button>
+        </div>
+        {Array(outputcount)
+          .fill(null)
+          .map((_, i) => (
+            <DynOutputHandle key={i} idx={i} />
+          ))}
+      </>
+    );
+  };
+  const CustomOutputNode = ({data}, props) => {
+    const [outputcount, setOutputCount] = useState(1);
+  
+    return (
+      <>
+        <div
+          style={{
+            border: "1px solid black",
+            backgroundColor: "lavender",
+            borderRadius: 4,
+            padding: 5
+          }}
+        >
+          aa
+          <hr />
+          <button onClick={() => setOutputCount((i) => i + 1)}>
+            {" "}
+            add output
+          </button>
+        </div>
+        {Array(outputcount)
+          .fill(null)
+          .map((_, i) => (
+            <DynOutputHandle key={i} idx={i} />
+          ))}
+      </>
+    );
+  };
+
+
 
 const initialNodes = [
     // {
@@ -41,7 +129,7 @@ const Flow = () => {
     const [nodeName, setNodeName] = useState('NULL');
     const [nodeBg, setNodeBg] = useState('NULL');
     const [selected, setSelected] = useState(false)
-    //const nodeTypes = useMemo(() => ({ customOutput: CustomOutputNode }), []);
+    const nodeTypes = useMemo(() => ({ customOutput: CustomOutputNode, customInput: CustomInputNode }), []);
     const [sizeX, setSizeX] = useState(0)
     const [sizeY, setSizeY] = useState(0)
 
@@ -74,18 +162,18 @@ const Flow = () => {
                         ...node.data,
                         label: nodeName,
                     };
-                    node.style = { ...node.style, backgroundColor: nodeBg};
+                    node.style = { ...node.style, backgroundColor: nodeBg };
                     console.log(sizeX)
                     console.log(sizeY)
-                    node.style = { ...node.style, width: sizeX, height:sizeY};
+                    node.style = { ...node.style, width: sizeX, height: sizeY };
                 }
 
                 return node;
             })
         );
-    }, [nodeName,nodeBg,sizeX, sizeY, setNodes]);
+    }, [nodeName, nodeBg, sizeX, sizeY, setNodes]);
 
-    
+
 
     useEffect(() => {
         setNodes((nds) =>
@@ -125,20 +213,20 @@ const Flow = () => {
                 type,
                 position,
                 data: { label: `${label}` },
-                style: { backgroundColor: '#FFFFFF', width:150, height:40},
+                style: { backgroundColor: '#FFFFFF', width: 150, height: 40 },
             };
 
             setNodes((nds) => nds.concat(newNode));
         },
         [reactFlowInstance]
     );
-    const graphStyles = { width: "100%", height: "100%" };
+    const graphStyles = { width: "100%", height: "500px" };
     return (
         <div>
-            <div className='grid grid-cols-4 '>
+            <div className='grid grid-cols-4 bg-indigo-800'>
                 <ReactFlowProvider>
                     <Sidebar />
-                    <div className="col-span-3 bg-indigo-900 rounded-md my-1 mx-2" ref={reactFlowWrapper}>
+                    <div className="col-span-3 bg-indigo-900 rounded-md my-1 mx-2 border-2 border-indigo-400" ref={reactFlowWrapper}>
                         <ReactFlow
                             nodes={nodes}
                             edges={edges}
@@ -148,14 +236,15 @@ const Flow = () => {
                             onInit={setReactFlowInstance}
                             onDrop={onDrop}
                             onDragOver={onDragOver}
-                            onNodeDragStart={(event, node)=>{
+
+                            onNodeDragStart={(event, node) => {
                                 event.preventDefault()
                                 setNodeBg(node.style.backgroundColor)
                                 setNodeName(node.data.label)
                                 setSizeX(node.style.width)
                                 setSizeY(node.style.height)
                             }}
-                            // nodeTypes={nodeTypes}
+                            nodeTypes={nodeTypes}
                             onNodeClick={(event, node) => {
                                 event.preventDefault()
                                 setNodeBg(node.style.backgroundColor)
@@ -168,17 +257,17 @@ const Flow = () => {
                                 console.log(node.type)
                                 console.log(node.data.label)
                                 console.log(node.style.backgroundColor)
-                                console.log('x '+node.style.width)
-                                console.log('y '+node.style.height)
+                                console.log('x ' + node.style.width)
+                                console.log('y ' + node.style.height)
                             }}
                             style={graphStyles}
                         >
 
                             <div className="updatenode__controls">
                                 <label>Label:</label>
-                                <input className='border-2 border-indigo-500/50 rounded-md px-1' value={nodeName} onChange={(evt) => setNodeName(evt.target.value)} />
+                                <input className='border-2 border-indigo-500/50 rounded-md px-1 text-black' value={nodeName} onChange={(evt) => setNodeName(evt.target.value)} />
                                 <label className="updatenode__bglabel">Background:</label>
-                                <input className='border-2 border-indigo-500/50 rounded-md px-1' value={nodeBg} onChange={(evt) => setNodeBg(evt.target.value)} />
+                                <input className='border-2 border-indigo-500/50 rounded-md px-1 text-black' value={nodeBg} onChange={(evt) => setNodeBg(evt.target.value)} />
                                 <div className="updatenode__checkboxwrapper">
                                     <label>Group</label>
                                     <input
@@ -188,9 +277,9 @@ const Flow = () => {
                                     />
                                 </div>
                                 <label className="updatenode__bglabel">Width:</label>
-                                <input className='border-2 border-indigo-500/50 rounded-md px-1' value={sizeX} onChange={(evt) => setSizeX(evt.target.value)} />
+                                <input className='border-2 border-indigo-500/50 rounded-md px-1 text-black' value={sizeX} onChange={(evt) => setSizeX(evt.target.value)} />
                                 <label className="updatenode__bglabel">Height:</label>
-                                <input className='border-2 border-indigo-500/50 rounded-md px-1' value={sizeY} onChange={(evt) => setSizeY(evt.target.value)} />
+                                <input className='border-2 border-indigo-500/50 rounded-md px-1 text-black' value={sizeY} onChange={(evt) => setSizeY(evt.target.value)} />
 
                             </div>
 

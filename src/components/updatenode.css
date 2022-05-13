@@ -12,14 +12,19 @@
 
     
   }
+  .fieldtextcol{
+    color: black
+  }
   
   .updatenode__controls label {
     display: block;
     border: 2px;
+ 
   }
   
   .updatenode__bglabel {
     margin-top: 10px;
     border: 2px;
+  
   }
   
