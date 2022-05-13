@@ -19,7 +19,7 @@ const Sidebar = () => {
     return (
         <div>
             {objects.map((object, key) => (
-                <div className={object.style} onDragStart={(event) => onDragStart(event, object.type, object.text)} draggable>
+                <div key={key} className={object.style} onDragStart={(event) => onDragStart(event, object.type, object.text)} draggable>
                     <div key={key} className='text-center'>{object.text}</div>
                 </div>
             ))}
