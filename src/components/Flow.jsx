@@ -13,11 +13,9 @@ import ReactFlow, {
 
 } from 'react-flow-renderer';
 import Sidebar from './Sidebar';
-// import CustomOutputNode from './CustomOutputNode';
-// import CustomInputNode from './CustomInputNode'
 import './updatenode.css'
 import '../index.css';
-
+import { GrAdd } from 'react-icons/gr'
 
 const DynOutputHandle = (props) => {
     const { idx } = props;
@@ -26,7 +24,7 @@ const DynOutputHandle = (props) => {
         <Handle
             type={"target"}
             id={`output${idx}`}
-            position={Position.Bottom}
+            position={Position.Up}
             style={{ left: 10 + idx * 20 }}
         />
     );
@@ -45,76 +43,106 @@ const DynInputHandle = (props) => {
     );
 };
 
-const CustomInputNode = ({data}, props) => {
+const CustomInputNode = ({ data }, props) => {
     const [outputcount, setOutputCount] = useState(1);
-  
-    return (
-      <>
-        <div
-          style={{
-            border: "1px solid black",
-            backgroundColor: "lavender",
-            borderRadius: 4,
-            padding: 5
-          }}
-        >
-          jj
-          <hr />
-          <button onClick={() => setOutputCount((i) => i + 1)}>
-            {" "}
-            add output
-          </button>
-        </div>
-        {Array(outputcount)
-          .fill(null)
-          .map((_, i) => (
-            <DynOutputHandle key={i} idx={i} />
-          ))}
-      </>
-    );
-  };
-  const CustomOutputNode = ({data}, props) => {
-    const [outputcount, setOutputCount] = useState(1);
-  
-    return (
-      <>
-        <div
-          style={{
-            border: "1px solid black",
-            backgroundColor: "lavender",
-            borderRadius: 4,
-            padding: 5
-          }}
-        >
-          aa
-          <hr />
-          <button onClick={() => setOutputCount((i) => i + 1)}>
-            {" "}
-            add output
-          </button>
-        </div>
-        {Array(outputcount)
-          .fill(null)
-          .map((_, i) => (
-            <DynOutputHandle key={i} idx={i} />
-          ))}
-      </>
-    );
-  };
 
+    return (
+        <>
+            <div
+                className=' hover:border-green-500 rounded-md'
+            >
+                {data.label}
+                <hr />
+                <div className='text sm fill-purple-700 hover:fill-green-500 my-1'>
+                    <GrAdd onClick={() => setOutputCount((i) => i + 1)} />
+                </div>
+
+            </div>
+            <div >
+                {Array(outputcount)
+                    .fill(null)
+                    .map((_, i) => (
+                        <DynInputHandle key={i} idx={i} />
+                    ))}
+            </div>
+        </>
+    );
+};
+const CustomOutputNode = ({ data }, props) => {
+    const [outputcount, setOutputCount] = useState(1);
+
+    return (
+        <>
+            <div
+                className='py-1 hover:border-green-500 rounded-md'
+            >
+                <div >
+                    {Array(outputcount)
+                        .fill(null)
+                        .map((_, i) => (
+                            <DynOutputHandle key={i} idx={i} />
+                        ))}
+                </div>
+                {data.label}
+                <hr />
+                <div className='text sm fill-purple-700 hover:fill-green-500 my-1'>
+                    <GrAdd onClick={() => setOutputCount((i) => i + 1)} />
+                </div>
+
+            </div>
+        </>
+    );
+};
+const CustomFunctionNode = ({ data }, props) => {
+    const [outputcount, setOutputCount] = useState(1);
+    const [inputcount, setInputCount] = useState(1)
+
+    return (
+        <>
+            <div
+                className='py-1 hover:border-green-500 rounded-md'
+            >
+                <div className='text sm fill-purple-700 hover:fill-green-500 my-1'>
+                    <GrAdd onClick={() => setOutputCount((i) => i + 1)} />
+                </div>
+                <hr />
+                <div >
+                    {Array(outputcount)
+                        .fill(null)
+                        .map((_, i) => (
+                            <DynOutputHandle key={i} idx={i} />
+                        ))}
+                </div>
+                <div >
+                    {Array(inputcount)
+                        .fill(null)
+                        .map((_, i) => (
+                            <DynInputHandle key={i} idx={i} />
+                        ))}
+                </div>
+                {data.label}
+                <hr />
+                <div className='text sm fill-purple-700 hover:fill-green-500 my-1'>
+                    <GrAdd onClick={() => setInputCount((i) => i + 1)} />
+                </div>
+
+            </div>
+        </>
+    );
+};
 
 
 const initialNodes = [
-    // {
-    //     id: 'A',
-    //     type: 'group',
-    //     data: { label: null },
-    //     position: { x: 0, y: 0 },
-    //     style: {
-    //         width: 170,
-    //         height: 140,
-    //     },
-    // },
+    {
+        id: 'A',
+        type: 'customInput',
+        data: { label: 'cmoon' },
+        position: { x: 50, y: 150 },
+        style: {
+            width: 200,
+            height: 50,
+        },
+    },
 
 ];
 
@@ -129,7 +157,7 @@ const Flow = () => {
     const [nodeName, setNodeName] = useState('NULL');
     const [nodeBg, setNodeBg] = useState('NULL');
     const [selected, setSelected] = useState(false)
-    const nodeTypes = useMemo(() => ({ customOutput: CustomOutputNode, customInput: CustomInputNode }), []);
+    const nodeTypes = useMemo(() => ({ customOutput: CustomOutputNode, customInput: CustomInputNode, customFunction:CustomFunctionNode }), []);
     const [sizeX, setSizeX] = useState(0)
     const [sizeY, setSizeY] = useState(0)
 
@@ -213,7 +241,7 @@ const Flow = () => {
                 type,
                 position,
                 data: { label: `${label}` },
-                style: { backgroundColor: '#FFFFFF', width: 150, height: 40 },
+                style: { backgroundColor: '#FFFFFF', width: 200, height: 50, borderRadius: 6 },
             };
 
             setNodes((nds) => nds.concat(newNode));
