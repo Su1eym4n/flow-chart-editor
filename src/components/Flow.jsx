@@ -16,6 +16,7 @@ import Sidebar from './Sidebar';
 import './updatenode.css'
 import '../index.css';
 import { GrAdd } from 'react-icons/gr'
+import { imageListClasses } from '@mui/material';
 
 const DynOutputHandle = (props) => {
     const { idx } = props;
@@ -216,6 +217,7 @@ const Flow = () => {
         );
 
     }, [selected, setNodes, setEdges]);
+
     const onDrop = useCallback(
         (event) => {
             event.preventDefault();
@@ -233,15 +235,17 @@ const Flow = () => {
                 x: event.clientX - reactFlowBounds.left,
                 y: event.clientY - reactFlowBounds.top,
             });
-
-
+            let heightl = 50
+            if(type === 'customFunction'){
+                heightl = 80
+            }
 
             const newNode = {
                 id: getId(),
                 type,
                 position,
                 data: { label: `${label}` },
-                style: { backgroundColor: '#FFFFFF', width: 200, height: 50, borderRadius: 6 },
+                style: { backgroundColor: '#FFFFFF', width: 200, height:heightl, borderRadius: 6 },
             };
 
             setNodes((nds) => nds.concat(newNode));
