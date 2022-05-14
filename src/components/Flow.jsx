@@ -134,17 +134,6 @@ const CustomFunctionNode = ({ data }, props) => {
 
 
 const initialNodes = [
-    {
-        id: 'A',
-        type: 'customInput',
-        data: { label: 'cmoon' },
-        position: { x: 50, y: 150 },
-        style: {
-            width: 200,
-            height: 50,
-        },
-    },
-
 ];
 
 let id = 0;
