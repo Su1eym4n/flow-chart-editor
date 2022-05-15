@@ -175,8 +175,30 @@ const Flow = () => {
         event.preventDefault();
         event.dataTransfer.dropEffect = 'move';
     }, []);
-   
 
+    useEffect(() => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                let x = 0
+                let y = 0
+                if (node.id === parent) {
+                    x = node.position.x
+                    y = node.position.y
+                    console.log('parent: ' + node.id + ' ' + parent)
+                    console.log('parent posx: ' + x)
+                    console.log('parent posy: ' + y)
+                }
+                else if (node.selected === true && node.type !== 'group') {
+                    node.parentNode = parent
+                    node.position.x = x
+                    node.position.y = y
+                    node.extent = 'parent'
+
+                }
+                return node
+            })
+        );
+    }, [parent, setNodes]);
 
     useEffect(() => {
         setNodes((nds) =>
@@ -190,8 +212,9 @@ const Flow = () => {
                     };
                     node.style = { ...node.style, backgroundColor: nodeBg };
                     console.log('size: ' + sizeX)
-                    node.style.width = sizeX
-                    node.style.height = sizeY
+          
+                    node.style.width = parseInt(sizeX)
+                    node.style.height = parseInt(sizeY)
 
                     // node.style={...node.style, height:sizeY}
                     // node.style={...node.style, width:sizeX}
@@ -202,33 +225,6 @@ const Flow = () => {
         );
     }, [nodeName, nodeBg, sizeX, sizeY, setNodes]);
 
-
-    useEffect(() => {
-        setNodes((nds) =>
-            nds.map((node) => {
-                let x = 0
-                let y = 0
-                if(node.id===parent){
-                    x = node.position.x
-                    y = node.position.y
-                    console.log('parent: '+ node.id+' '+ parent)
-                    console.log('parent posx: '+ x)
-                    console.log('parent posy: '+ y)
-                }
-                else if (node.selected === true && node.type !== 'group') {
-                   node.parentNode=parent
-                   node.position.x = x
-                   node.position.y = y
-                   node.extent='parent'
-
-                }
-                return node
-            })
-        );
-    }, [parent, setNodes]);
-
-
-
     useEffect(() => {
         setNodes((nds) =>
             nds.map((node) => {
@@ -236,11 +232,9 @@ const Flow = () => {
                     console.log('selected found')
                     // when you update a simple type you can just update the value
                     node.type = 'group';
-                    node.style = { ...node.style, height: 250 }
-                    node.style = { ...node.style, width: 250 }
+
                     setType(node.type)
-                    setSizeX(250)
-                    setSizeY(250)
+
                     setGroup('')
                 }
                 console.log('not selected')
@@ -335,12 +329,12 @@ const Flow = () => {
                                 console.log('type: ' + node.type)
                                 console.log('x ' + node.style.width)
                                 console.log('y ' + node.style.height)
-                                console.log('id: '+node.id)
-                                console.log('parent: '+ node.parentNode)
+                                console.log('id: ' + node.id)
+                                console.log('parent: ' + node.parentNode)
                             }}
                             style={graphStyles}
                         >
-
+                            <div className='rounded-md text-center bg-emerald-400 my-1 w-48 mx-4'>Click on Node to see Data</div>
                             <div className="updatenode__controls ">
                                 <div className='grid grid-cols-1 divide-y divide-black'>
                                     <div>
@@ -372,11 +366,14 @@ const Flow = () => {
                                             return (
                                                 <div key={key} className='grid grid-cols-2 static py-1'>
                                                     <div>{node.data.label}</div>
-                                                    <div className={node.type==='group'?'relative right-0 rounded-md px-2 mx-1 bg-green-400 text-black hover:cursor-pointer':'relative right-0 rounded-md px-2 mx-1 bg-red-400'} onClick={(evt)=>setParent(node.id)}>{node.type==='group'?'Join':''}</div>
+                                                    <div className={node.type === 'group' ? 'relative right-0 rounded-md px-2 mx-1 bg-green-400 text-black hover:cursor-pointer' : 'relative right-0 rounded-md px-2 mx-1 bg-red-400'} onClick={(evt) => {
+                                                        setParent(node.id)
+                                                        console.log(parent)
+                                                    }}>{node.type === 'group' ? 'Join' : ''}</div>
                                                 </div>
-                                                
-                                                )
-                                
+
+                                            )
+
                                         })}
                                     </div>
                                 </div>
