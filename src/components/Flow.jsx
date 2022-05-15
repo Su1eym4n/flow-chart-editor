@@ -154,6 +154,7 @@ const Flow = () => {
     const [sizeY, setSizeY] = useState(0)
     const [type, setType] = useState()
     const [parent, setParent] = useState()
+    const [id, setID] = useState()
 
 
     const onNodesChange = useCallback((changes) => {
@@ -314,6 +315,7 @@ const Flow = () => {
                                 setSizeX(node.style.width)
                                 setSizeY(node.style.height)
                                 setType(node.type)
+                                setID(node.id)
                                 console.log('type: ' + node.type)
                                 console.log('x ' + node.style.width)
                                 console.log('y ' + node.style.height)
@@ -326,6 +328,7 @@ const Flow = () => {
                                 setSizeX(node.style.width)
                                 setSizeY(node.style.height)
                                 setType(node.type)
+                                setID(node.id)
                                 if (node.type === 'group') {
 
                                 }
@@ -358,6 +361,7 @@ const Flow = () => {
                                         <div>
                                             <div className='py-1'>Info:</div>
                                             <div>Type: {type}</div>
+                                            <div>ID: {id}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -368,7 +372,7 @@ const Flow = () => {
                                             return (
                                                 <div key={key} className='grid grid-cols-2 static py-1'>
                                                     <div>{node.data.label}</div>
-                                                    <div className='relative right-0 rounded-md px-2 mx-1 bg-green-400 text-black hover:cursor-pointer' onClick={(evt)=>setParent(node.id)}>{node.type==='group'?'Join':''}</div>
+                                                    <div className={node.type==='group'?'relative right-0 rounded-md px-2 mx-1 bg-green-400 text-black hover:cursor-pointer':'relative right-0 rounded-md px-2 mx-1 bg-red-400'} onClick={(evt)=>setParent(node.id)}>{node.type==='group'?'Join':''}</div>
                                                 </div>
                                                 
                                                 )
