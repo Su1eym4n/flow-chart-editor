@@ -20,15 +20,17 @@ const Sidebar = () => {
         { style: 'bg-indigo-300 w-40 my-2 py-2 mx-2 rounded-md', type: 'customOutput', text: 'OUTPUT_1', color: '#7986cb' },
         { style: 'bg-indigo-400 w-40 my-2 py-2 mx-2 rounded-md', type: 'customOutput', text: 'OUTPUT_2', color: '#5c6bc0' },
     ]
+
     const menuItems = [...new Set(Data.map((val) => val.type))]
     const [item, setItem] = useState(Data);
     const filterItem = (curcat) => {
         const newItem = Data.filter((newVal) => {
             return newVal.type === curcat;
         });
-        
+
         setItem(newItem);
     };
+
     return (
         <div className='static'>
             <FilterButtons filterItem={filterItem}
@@ -40,20 +42,6 @@ const Sidebar = () => {
                     <div key={key} className='text-center'>{object.text}</div>
                 </div>
             ))}
-            <div name="flex justify-center absolute bottom-0 ">
-                <div className="mb-3 xl:w-96">
-                    <label htmlFor="exampleFormControlTextarea1" className="form-label inline-block mb-2 text-white">Input Form</label>
-                    <textarea
-                        className="form-control block w-full px-3 py-1.5 text-base font-normal text-white bg-indigo-600 bg-clip-padding 
-        border border-solid border-gray-300 rounded transition
-        ease-in-out m-0 focus:text-white focus:bg-indigo-500 focus:border-blue-600 focus:outline-none
-      "
-                        id="exampleFormControlTextarea1"
-                        rows="3"
-                        placeholder="paste ypur JSON"
-                    />
-                </div>
-            </div>
         </div>
     );
 };

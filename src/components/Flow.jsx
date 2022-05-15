@@ -155,6 +155,13 @@ const Flow = () => {
     const [type, setType] = useState()
     const [parent, setParent] = useState()
     const [id, setID] = useState()
+    const [jsonInput, setJsonInput] = useState('')
+    
+    const convert = ()=>{
+        const jsonNode = JSON.parse(jsonInput)
+        setNodes((nds) => nds.concat(jsonNode));
+        console.log(jsonNode)
+    }
 
 
     const onNodesChange = useCallback((changes) => {
@@ -212,7 +219,7 @@ const Flow = () => {
                     };
                     node.style = { ...node.style, backgroundColor: nodeBg };
                     console.log('size: ' + sizeX)
-          
+
                     node.style.width = parseInt(sizeX)
                     node.style.height = parseInt(sizeY)
 
@@ -288,8 +295,8 @@ const Flow = () => {
 
     const graphStyles = { width: "100%", height: "500px" };
     return (
-        <div>
-            <div className='grid grid-cols-4 bg-indigo-800'>
+        <div className='bg-indigo-800 py-2'>
+            <div className='grid grid-cols-4'>
                 <ReactFlowProvider>
                     <Sidebar />
                     <div className="col-span-3 bg-indigo-900 rounded-md my-1 mx-2 border-2 border-indigo-400" ref={reactFlowWrapper}>
@@ -371,9 +378,7 @@ const Flow = () => {
                                                         console.log(parent)
                                                     }}>{node.type === 'group' ? 'Join' : ''}</div>
                                                 </div>
-
                                             )
-
                                         })}
                                     </div>
                                 </div>
@@ -381,9 +386,34 @@ const Flow = () => {
                             <Controls />
                             <Background color='#03C875' />
                         </ReactFlow>
+                        
                     </div>
+                    
                 </ReactFlowProvider>
             </div>
+            <div name="flex justify-center absolute bottom-0 ">
+                                <div className="mx-2 mb-3 xl:w-96">
+                                    <label htmlFor="exampleFormControlTextarea1" className="form-label inline-block mb-2 text-white">Input Form</label>
+                                    <textarea
+                                        className="form-control block w-full h-52 px-3 py-1.5 text-sm font-normal text-white bg-indigo-600 bg-clip-padding 
+        border border-solid border-gray-300 rounded transition
+        ease-in-out m-0 focus:text-white focus:bg-indigo-500 focus:border-blue-600 focus:outline-none
+      "
+                                        id="exampleFormControlTextarea1"
+                                        rows="3"
+                                        placeholder="paste ypur JSON"
+                                        value={jsonInput}
+                                        onChange={(e) => {
+                                            setJsonInput(e.target.value)
+                                        }}
+
+                                    />
+                                </div>
+                            </div>
+                            <div className='rounded-lg text-center bg-green-200 my-3 py-1 w-40  mx-2 hover:bg-green-300'
+                                onClick={(e) => { convert() }}>
+                                Convert
+                            </div>
         </div>
 
     );
