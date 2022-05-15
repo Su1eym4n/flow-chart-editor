@@ -363,7 +363,7 @@ const Flow = () => {
                                 </div>
                                 <div >
                                     <div>Nodes on Board:</div>
-                                    <div className='py-1 px-1 border-2  rounded-md overflow-y-scroll'>
+                                    <div className='py-1 px-1 border-2 h-40 rounded-md overflow-y-scroll'>
                                         {nodes.map((node, key) => {
                                             return (
                                                 <div key={key} className='grid grid-cols-2 static py-1'>
