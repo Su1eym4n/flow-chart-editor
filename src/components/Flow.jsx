@@ -157,11 +157,12 @@ const Flow = () => {
     const [id, setID] = useState()
     const [jsonInput, setJsonInput] = useState('')
     
-    const convert = ()=>{
+    const convert =  useCallback(
+        (event) => {
         const jsonNode = JSON.parse(jsonInput)
         setNodes((nds) => nds.concat(jsonNode));
         console.log(jsonNode)
-    }
+    },[jsonInput, setNodes])
 
 
     const onNodesChange = useCallback((changes) => {

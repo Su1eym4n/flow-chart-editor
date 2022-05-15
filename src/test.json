@@ -1,5 +1,5 @@
 {
-    "id": 1,
+    "id": "node 1",
     "type":"customInput",
     "data":{"label":"Node 1"},
     "position":{"x":250, "y":40},
