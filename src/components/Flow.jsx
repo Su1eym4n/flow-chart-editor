@@ -174,7 +174,7 @@ const Flow = () => {
     );
 
     const onConnect = useCallback((params) => {
-        setEdges((eds) => addEdge({ ...params, animated: true, style: { stroke: '#E80F3D' } }, eds))
+        setEdges((eds) => addEdge({ ...params, animated: true, style: { stroke: '#FF00CB' } }, eds))
     }, [setEdges]
     );
 
